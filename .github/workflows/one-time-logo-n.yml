@@ -1,0 +1,40 @@
+name: One-time boxed N font update
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+
+jobs:
+  update:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Change only the boxed N font
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          p = Path('styles.css')
+          s = p.read_text()
+          old = '.mark{width:39px;height:39px;border-radius:13px;background:var(--blue);color:#fff;display:grid;place-items:center;font:22px Georgia,serif}'
+          new = '.mark{width:39px;height:39px;border-radius:13px;background:var(--blue);color:#fff;display:grid;place-items:center;font-family:"Snell Roundhand","Segoe Script","Brush Script MT",cursive;font-size:25px;font-weight:700}'
+          if old not in s:
+              raise SystemExit('Expected boxed N style not found')
+          p.write_text(s.replace(old, new, 1))
+          PY
+
+      - name: Remove one-time workflow and commit
+        run: |
+          rm .github/workflows/one-time-logo-n.yml
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add styles.css .github/workflows/one-time-logo-n.yml
+          git commit -m 'Style boxed N only'
+          git push
