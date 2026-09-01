@@ -1,4 +1,4 @@
-const CACHE='noor-v1.1.2-notation';
+const CACHE='noor-v1.1.3-notation';
 const ASSETS=['./','./index.html','./styles.css','./manifest.webmanifest','./js/app.js','./js/config.js','./js/storage.js','./js/tools.js','./js/media.js','./js/reference-enhancements.js','./js/formula-formatting.js'];
 self.addEventListener('install',event=>{event.waitUntil(caches.open(CACHE).then(cache=>cache.addAll(ASSETS)).then(()=>self.skipWaiting()));});
 self.addEventListener('activate',event=>{event.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(key=>key!==CACHE).map(key=>caches.delete(key)))).then(()=>self.clients.claim()));});
