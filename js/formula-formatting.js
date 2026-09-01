@@ -66,27 +66,31 @@ function chemicalFormulaHTML(text){
   return String(text).replace(/([A-Za-z\)])(\d+)/g,'$1<sub>$2</sub>');
 }
 
+function setHTMLIfChanged(el,html){
+  if(el&&el.innerHTML!==html)el.innerHTML=html;
+}
+
 function formatEquations(){
   document.querySelectorAll('.equation-card code').forEach(code=>{
     const raw=code.textContent.trim();
     const html=FORMULAS[raw];
-    if(html) code.innerHTML=html;
+    if(html)setHTMLIfChanged(code,html);
     if(raw==='QA = Qspecific × mA'){
       const vars=code.nextElementSibling;
-      if(vars)vars.innerHTML='<i>Q</i><sub>specific</sub> in mAh·g<sup>−1</sup>; use <i>m</i><sub>A</sub> in g·cm<sup>−2</sup>. If loading is mg·cm<sup>−2</sup>, divide the product by 1000.';
+      setHTMLIfChanged(vars,'<i>Q</i><sub>specific</sub> in mAh·g<sup>−1</sup>; use <i>m</i><sub>A</sub> in g·cm<sup>−2</sup>. If loading is mg·cm<sup>−2</sup>, divide the product by 1000.');
     }
   });
 }
 
 function formatReferenceShorthand(){
   document.querySelectorAll('#contextReferences article b').forEach(el=>{
-    let html=el.textContent;
-    html=html.replace(/\bpKa\b/g,'pK<sub>a</sub>').replace(/\bOD600\b/g,'OD<sub>600</sub>');
-    if(html!==el.textContent)el.innerHTML=html;
+    const raw=el.textContent;
+    const html=raw.replace(/\bpKa\b/g,'pK<sub>a</sub>').replace(/\bOD600\b/g,'OD<sub>600</sub>');
+    setHTMLIfChanged(el,html);
   });
   document.querySelectorAll('#solventReference tbody tr td:nth-child(2)').forEach(td=>{
     const raw=td.textContent.trim();
-    if(/^[A-Za-z0-9()]+$/.test(raw))td.innerHTML=chemicalFormulaHTML(raw);
+    if(/^[A-Za-z0-9()]+$/.test(raw))setHTMLIfChanged(td,chemicalFormulaHTML(raw));
   });
 }
 
@@ -101,7 +105,14 @@ function formatAll(){formatEquations();formatReferenceShorthand();}
 function wire(){
   styleNotation();formatAll();
   const root=document.querySelector('#references');
-  if(root)new MutationObserver(()=>formatAll()).observe(root,{childList:true,subtree:true});
+  if(root){
+    let queued=false;
+    new MutationObserver(()=>{
+      if(queued)return;
+      queued=true;
+      requestAnimationFrame(()=>{queued=false;formatAll();});
+    }).observe(root,{childList:true,subtree:true});
+  }
 }
 if(typeof document!=='undefined'){
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>setTimeout(wire,160));
