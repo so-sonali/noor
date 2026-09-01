@@ -6,6 +6,7 @@ if (typeof document !== 'undefined') {
   import('./project-linking.js');
   import('./audit-history.js');
   import('./cloud-sync.js');
+  import('./record-integrity.js');
 }
 
 export const DISCIPLINES = {
