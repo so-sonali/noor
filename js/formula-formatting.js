@@ -21,7 +21,7 @@ const FORMULAS={
 'pH = pKa + log₁₀([A⁻]/[HA])':'pH = p<i>K</i><sub>a</sub> + log<sub>10</sub>([A<sup>−</sup>]/[HA])',
 'DF = Vfinal / Vsample':'DF = <i>V</i><sub>final</sub> / <i>V</i><sub>sample</sub>',
 'Viability % = 100 × signaltreated / signalcontrol':'Viability % = 100 × signal<sub>treated</sub> / signal<sub>control</sub>',
-'Qtheor = nF / (3.6M)':'<i>Q</i><sub>theor</sub> = <i>nF</i> / (3.6<i>M</i>)',
+'Qtheor = nF / (3.6M)':'<i>Q</i><sub>theor</sub> = <i>n</i><i>F</i> / (3.6<i>M</i>)',
 'I = C-rate × Qnominal':'<i>I</i> = C-rate × <i>Q</i><sub>nominal</sub>',
 'mA = mactive / A':'<i>m</i><sub>A</sub> = <i>m</i><sub>active</sub> / <i>A</i>',
 'QA = Qspecific × mA':'<i>Q</i><sub>A</sub> = <i>Q</i><sub>specific</sub> × <i>m</i><sub>A</sub>',
@@ -30,23 +30,23 @@ const FORMULAS={
 'E/C = Velectrolyte / Qcell':'E/C = <i>V</i><sub>electrolyte</sub> / <i>Q</i><sub>cell</sub>',
 'E = ∫ V dQ ≈ Vavg × Q':'<i>E</i> = ∫ <i>V</i> d<i>Q</i> ≈ <i>V</i><sub>avg</sub> × <i>Q</i>',
 'Esp = E / m':'<i>E</i><sub>sp</sub> = <i>E</i> / <i>m</i>',
-'P = E / Δt = VI':'<i>P</i> = <i>E</i> / Δ<i>t</i> = <i>VI</i>',
-'E = E° − (RT/nF) ln Q':'<i>E</i> = <i>E</i><sup>°</sup> − (<i>RT</i>/<i>nF</i>) ln <i>Q</i>',
-'m = Q M / (nF)':'<i>m</i> = <i>QM</i> / (<i>nF</i>)',
+'P = E / Δt = VI':'<i>P</i> = <i>E</i> / Δ<i>t</i> = <i>V</i><i>I</i>',
+'E = E° − (RT/nF) ln Q':'<i>E</i> = <i>E</i><sup>°</sup> − (<i>R</i><i>T</i>/<i>n</i><i>F</i>) ln <i>Q</i>',
+'m = Q M / (nF)':'<i>m</i> = <i>Q</i><i>M</i> / (<i>n</i><i>F</i>)',
 'CE % = 100 × Qdischarge / Qcharge':'CE % = 100 × <i>Q</i><sub>discharge</sub> / <i>Q</i><sub>charge</sub>',
 'Retention % = 100 × Qcycle / Qinitial':'Retention % = 100 × <i>Q</i><sub>cycle</sub> / <i>Q</i><sub>initial</sub>',
 'C = m / V':'<i>C</i> = <i>m</i> / <i>V</i>',
 'EE % = 100 × (minitial − mfree) / minitial':'EE % = 100 × (<i>m</i><sub>initial</sub> − <i>m</i><sub>free</sub>) / <i>m</i><sub>initial</sub>',
 'DL % = 100 × mencapsulated / mrecovered particles':'DL % = 100 × <i>m</i><sub>encapsulated</sub> / <i>m</i><sub>recovered particles</sub>',
 'Recovery % = 100 × mrecovered / mstarting solids':'Recovery % = 100 × <i>m</i><sub>recovered</sub> / <i>m</i><sub>starting solids</sub>',
-'RCF = 1.118×10⁻⁵ × r × RPM²':'RCF = 1.118×10<sup>−5</sup> × <i>r</i> × RPM<sup>2</sup>',
-'RPM = √(RCF / (1.118×10⁻⁵ r))':'RPM = √(RCF / (1.118×10<sup>−5</sup> <i>r</i>))',
+'RCF = 1.118×10⁻⁵ × r × RPM²':'RCF = 1.118 × 10<sup>−5</sup> × <i>r</i> × RPM<sup>2</sup>',
+'RPM = √(RCF / (1.118×10⁻⁵ r))':'RPM = √(RCF / (1.118 × 10<sup>−5</sup> <i>r</i>))',
 'A = 4πr²':'<i>A</i> = 4π<i>r</i><sup>2</sup>',
 'V = 4πr³/3':'<i>V</i> = 4π<i>r</i><sup>3</sup>/3',
 'N ≈ mtotal / (ρ × 4πr³/3)':'<i>N</i> ≈ <i>m</i><sub>total</sub> / (ρ × 4π<i>r</i><sup>3</sup>/3)',
 'Atotal ≈ N × 4πr²':'<i>A</i><sub>total</sub> ≈ <i>N</i> × 4π<i>r</i><sup>2</sup>',
 'E = P × t':'<i>E</i> = <i>P</i> × <i>t</i>',
-'E/V = P t / Vsample':'<i>E</i>/<i>V</i> = <i>Pt</i> / <i>V</i><sub>sample</sub>',
+'E/V = P t / Vsample':'<i>E</i>/<i>V</i> = <i>P</i><i>t</i> / <i>V</i><sub>sample</sub>',
 'xᵢ = nᵢ / Σn':'<i>x</i><sub>i</sub> = <i>n</i><sub>i</sub> / Σ<i>n</i>',
 'wt%ᵢ = 100 × mᵢ / Σm':'wt%<sub>i</sub> = 100 × <i>m</i><sub>i</sub> / Σ<i>m</i>',
 'at%ᵢ = 100 × nᵢ / Σn':'at%<sub>i</sub> = 100 × <i>n</i><sub>i</sub> / Σ<i>n</i>',
@@ -62,25 +62,46 @@ const FORMULAS={
 'Rs = ρe / t':'<i>R</i><sub>s</sub> = ρ<sub>e</sub> / <i>t</i>'
 };
 
+function chemicalFormulaHTML(text){
+  return String(text).replace(/([A-Za-z\)])(\d+)/g,'$1<sub>$2</sub>');
+}
+
 function formatEquations(){
   document.querySelectorAll('.equation-card code').forEach(code=>{
     const raw=code.textContent.trim();
     const html=FORMULAS[raw];
     if(html) code.innerHTML=html;
+    if(raw==='QA = Qspecific × mA'){
+      const vars=code.nextElementSibling;
+      if(vars)vars.innerHTML='<i>Q</i><sub>specific</sub> in mAh·g<sup>−1</sup>; use <i>m</i><sub>A</sub> in g·cm<sup>−2</sup>. If loading is mg·cm<sup>−2</sup>, divide the product by 1000.';
+    }
+  });
+}
+
+function formatReferenceShorthand(){
+  document.querySelectorAll('#contextReferences article b').forEach(el=>{
+    let html=el.textContent;
+    html=html.replace(/\bpKa\b/g,'pK<sub>a</sub>').replace(/\bOD600\b/g,'OD<sub>600</sub>');
+    if(html!==el.textContent)el.innerHTML=html;
+  });
+  document.querySelectorAll('#solventReference tbody tr td:nth-child(2)').forEach(td=>{
+    const raw=td.textContent.trim();
+    if(/^[A-Za-z0-9()]+$/.test(raw))td.innerHTML=chemicalFormulaHTML(raw);
   });
 }
 
 function styleNotation(){
   if(document.querySelector('#formulaNotationStyles'))return;
   const s=document.createElement('style');s.id='formulaNotationStyles';
-  s.textContent='.equation-card code sub,.equation-card code sup{font-size:.72em;line-height:0}.equation-card code sub{vertical-align:-.32em}.equation-card code sup{vertical-align:.48em}.equation-card code i{font-family:Georgia,serif;font-style:italic;font-weight:600}';
+  s.textContent='.equation-card code sub,.equation-card code sup,#references sub,#references sup{font-size:.72em;line-height:0}.equation-card code sub,#references sub{vertical-align:-.32em}.equation-card code sup,#references sup{vertical-align:.48em}.equation-card code i{font-family:Georgia,serif;font-style:italic;font-weight:600}';
   document.head.appendChild(s);
 }
 
+function formatAll(){formatEquations();formatReferenceShorthand();}
 function wire(){
-  styleNotation();formatEquations();
+  styleNotation();formatAll();
   const root=document.querySelector('#references');
-  if(root)new MutationObserver(()=>formatEquations()).observe(root,{childList:true,subtree:true});
+  if(root)new MutationObserver(()=>formatAll()).observe(root,{childList:true,subtree:true});
 }
 if(typeof document!=='undefined'){
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>setTimeout(wire,160));
