@@ -104,9 +104,11 @@ export const SOLVENTS = [
 ];
 
 export const QUOTES = [
-  {text:'Chance favors only the prepared mind.', author:'Louis Pasteur', source:'University of Lille lecture, 1854'},
-  {text:'Nothing is too wonderful to be true, if it be consistent with the laws of nature.', author:'Michael Faraday', source:'Experimental Researches in Electricity'},
-  {text:'Science is built up of facts, as a house is built of stones; but an accumulation of facts is no more a science than a heap of stones is a house.', author:'Henri Poincaré', source:'Science and Hypothesis, 1902'}
+  {
+    text:'Do not use your energy to worry. Use your energy to believe, to create, to learn, to think and to grow.',
+    author:'Richard Feynman (attributed)',
+    source:'Widely circulated attribution; no primary source verified.'
+  }
 ];
 
 export function disciplineFromLabel(label){ return Object.values(DISCIPLINES).find(d=>d.label===label) || DISCIPLINES.biochem; }
