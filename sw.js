@@ -1,5 +1,5 @@
-const CACHE='noor-v1.1.0';
-const ASSETS=['./','./index.html','./styles.css','./manifest.webmanifest','./js/app.js','./js/config.js','./js/storage.js','./js/tools.js','./js/media.js'];
+const CACHE='noor-v1.1.1-reference';
+const ASSETS=['./','./index.html','./styles.css','./manifest.webmanifest','./js/app.js','./js/config.js','./js/storage.js','./js/tools.js','./js/media.js','./js/reference-enhancements.js'];
 self.addEventListener('install',event=>{event.waitUntil(caches.open(CACHE).then(cache=>cache.addAll(ASSETS)).then(()=>self.skipWaiting()));});
 self.addEventListener('activate',event=>{event.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(key=>key!==CACHE).map(key=>caches.delete(key)))).then(()=>self.clients.claim()));});
 self.addEventListener('fetch',event=>{
