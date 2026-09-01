@@ -39,7 +39,7 @@ jobs:
           node --check js/media.js
           node --check js/storage.js
           node --check js/tools.js
-          node --test tests/calculators.test.mjs
+          node --test tests/tool-tests.mjs
 
       - name: Remove one-time workflow and commit wiring
         run: |
