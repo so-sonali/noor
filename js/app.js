@@ -11,7 +11,8 @@ const fmtDate=v=>v?new Date(v).toLocaleString(undefined,{year:'numeric',month:'s
 const toast=(text)=>{const t=$('#toast');t.textContent=text;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2200)};
 
 async function refresh(){for(const s of stores)cache[s]=(await all(s)).sort((a,b)=>String(b.updatedAt||b.createdAt||'').localeCompare(String(a.updatedAt||a.createdAt||'')));renderAll();}
-function showView(id){$$('.view').forEach(v=>v.classList.toggle('active-view',v.id===id));$$('.nav').forEach(n=>n.classList.toggle('active',n.dataset.view===id));$('#pageTitle').textContent=id==='today'?'Good day, scientist.':id==='workspace'?DISCIPLINES[activeDiscipline].label:id.replaceAll('-',' ').replace(/\b\w/g,c=>c.toUpperCase());window.scrollTo({top:0,behavior:'smooth'});}
+function greeting(){const h=new Date().getHours();return h<12?'Good morning':h<17?'Good afternoon':'Good evening';}
+function showView(id){$$('.view').forEach(v=>v.classList.toggle('active-view',v.id===id));$$('.nav').forEach(n=>n.classList.toggle('active',n.dataset.view===id));const pageTitle=$('#pageTitle');pageTitle.textContent=greeting();pageTitle.style.display=id==='today'?'':'none';window.scrollTo({top:0,behavior:'smooth'});}
 function renderAll(){renderTasks();renderExperiments();renderProtocols();renderSyntheses();renderDiscussions();renderSearch();renderStats();renderReferences();}
 function setupNav(){$$('.nav').forEach(n=>n.onclick=()=>showView(n.dataset.view));$$('[data-jump]').forEach(n=>n.onclick=()=>showView(n.dataset.jump));}
 
