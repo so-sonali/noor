@@ -1,0 +1,60 @@
+name: NOOR security hardening patch
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/security-hardening-patch.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  harden:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Apply security hardening
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+
+          # Add CSP + referrer protection early in the document head.
+          p=Path('index.html')
+          s=p.read_text()
+          marker='<meta name="viewport" content="width=device-width,initial-scale=1">'
+          csp='<meta http-equiv="Content-Security-Policy" content="default-src \'self\'; script-src \'self\'; style-src \'self\' \'unsafe-inline\'; img-src \'self\' data: blob:; connect-src \'self\' https://swreuprsggqdmcjawtrw.supabase.co; font-src \'self\' data:; object-src \'none\'; base-uri \'self\'; form-action \'self\'; worker-src \'self\' blob:; frame-src \'none\'">\n  <meta name="referrer" content="no-referrer">'
+          if 'Content-Security-Policy' not in s:
+              s=s.replace(marker, marker+'\n  '+csp, 1)
+          p.write_text(s)
+
+          # Ensure all local notebook stores participate in encrypted sync.
+          p=Path('js/secure-cloud-sync.js')
+          s=p.read_text()
+          s=s.replace("const GENERIC_STORES=['protocols','syntheses','discussions','plates','calculations','samples','instruments','literature','decisions','analyses','handwriting'];",
+                      "const GENERIC_STORES=['protocols','syntheses','discussions','plates','calculations','tasks','timers','settings','samples','instruments','literature','decisions','analyses','handwriting'];")
+
+          old="else{const temp={id:r.local_id,experimentId:null},key=await genericKey(workspace,store,temp),aad=`record:${workspace.id}:${store}:${r.local_id}:v1`,data=await decryptJSON(r.encrypted_data,r.data_nonce,key,aad);"
+          new="else{const linkedExp=r.experiment_id?(await all('experiments')).find(e=>e.cloudId===r.experiment_id):null;const temp={id:r.local_id,experimentId:linkedExp?.id||null},key=await genericKey(workspace,store,temp),aad=`record:${workspace.id}:${store}:${r.local_id}:v1`,data=await decryptJSON(r.encrypted_data,r.data_nonce,key,aad);"
+          if old not in s:
+              raise SystemExit('Expected encrypted remote-record key-selection pattern not found')
+          s=s.replace(old,new,1)
+          p.write_text(s)
+          PY
+      - name: Validate NOOR
+        run: |
+          npm run check
+          npm test
+      - name: Commit hardening
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html js/secure-cloud-sync.js
+          git diff --cached --quiet && exit 0
+          git commit -m "Harden encrypted vault browser boundary"
+          git push
