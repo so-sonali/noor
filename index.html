@@ -1,110 +1,13 @@
-<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <meta name="theme-color" content="#005bbb" />
-  <title>NOOR — Electronic Lab Notebook</title>
-  <link rel="stylesheet" href="styles.css" />
-</head>
-<body>
-  <aside class="sidebar">
-    <div class="brand"><span class="mark">N</span><div><strong>NOOR</strong><small>Electronic Lab Notebook</small></div></div>
-    <nav>
-      <button class="nav active" data-view="today">Today</button>
-      <p class="nav-label">Research</p>
-      <button class="nav" data-view="experiments">Experiments</button>
-      <button class="nav" data-view="protocols">Protocols</button>
-      <button class="nav" data-view="synthesis">Synthesis schemes</button>
-      <button class="nav" data-view="results">Results & discussion</button>
-      <p class="nav-label">Tools</p>
-      <button class="nav" data-view="calculator">Scientific calculator</button>
-      <button class="nav" data-view="references">Reference hub</button>
-      <button class="nav" data-view="resources">Resources</button>
-    </nav>
-    <div class="offline"><span class="dot"></span><span id="offlineText">Local-first workspace</span></div>
-  </aside>
-
-  <main>
-    <header class="topbar">
-      <div><p class="eyebrow" id="dateLabel"></p><h1 id="pageTitle">Good day, scientist.</h1></div>
-      <button class="primary" id="newExperiment">+ New experiment</button>
-    </header>
-
-    <section id="today" class="view active-view">
-      <div class="quote-card">
-        <span class="quote-mark">“</span>
-        <blockquote id="quoteText"></blockquote>
-        <p id="quoteAuthor"></p>
-      </div>
-
-      <div class="discipline-grid">
-        <button class="discipline orgo"><b>Organic Chemistry</b><span>Reactions · structures · synthesis</span></button>
-        <button class="discipline electro"><b>Electrochemistry</b><span>Cells · cycling · calculations</span></button>
-        <button class="discipline biochem"><b>Biochemistry</b><span>Buffers · assays · biomolecules</span></button>
-        <button class="discipline materials"><b>Materials Science</b><span>Fabrication · characterization</span></button>
-        <button class="discipline nano"><b>Nanotechnology</b><span>Particles · surfaces · devices</span></button>
-      </div>
-
-      <div class="dashboard-grid">
-        <article class="panel">
-          <div class="panel-head"><div><span class="kicker">TODAY</span><h2>Bench list</h2></div><span class="count" id="taskCount">0</span></div>
-          <form id="taskForm" class="inline-form"><input id="taskInput" placeholder="Add a lab task…" autocomplete="off"/><button>Add</button></form>
-          <ul id="taskList" class="task-list"></ul>
-        </article>
-        <article class="panel">
-          <div class="panel-head"><div><span class="kicker">RECENT</span><h2>Experiments</h2></div><button class="text-button" data-jump="experiments">View all</button></div>
-          <div id="recentExperiments" class="empty-state">No experiments yet.<br><span>Start with the question you want to answer.</span></div>
-        </article>
-      </div>
-    </section>
-
-    <section id="experiments" class="view">
-      <div class="section-intro"><span class="kicker">RESEARCH</span><h2>Experiments</h2><p>Keep the record of what happened separate from what you think it means.</p></div>
-      <div id="experimentList" class="cards"></div>
-    </section>
-
-    <section id="protocols" class="view"><div class="section-intro"><span class="kicker">LIBRARY</span><h2>Protocols</h2><p>Long-form methods built to be optimized, versioned, and reused.</p></div><div class="placeholder">Protocol versioning is next on the bench.</div></section>
-    <section id="synthesis" class="view"><div class="section-intro"><span class="kicker">CHEMISTRY</span><h2>Synthesis schemes</h2><p>A future home for reaction schemes, structures, conditions, yields, and ChemDraw-friendly exchange.</p></div><div class="placeholder">Structure editor integration planned.</div></section>
-    <section id="results" class="view"><div class="section-intro"><span class="kicker">INTERPRETATION</span><h2>Results & discussion</h2><p>Connect observations across experiments without rewriting the raw record.</p></div><div class="placeholder">Project-level discussion workspace planned.</div></section>
-
-    <section id="calculator" class="view">
-      <div class="section-intro"><span class="kicker">TOOLS</span><h2>Scientific calculator</h2><p>Fast calculations without leaving your notebook.</p></div>
-      <div class="calculator"><input id="calcDisplay" value="" placeholder="e.g. (2.5*10^3)/6.022e23"/><div class="calc-actions"><button id="calculate">Calculate</button><button class="secondary" id="clearCalc">Clear</button></div><output id="calcResult">—</output></div>
-    </section>
-
-    <section id="references" class="view">
-      <div class="section-intro"><span class="kicker">REFERENCE</span><h2>Quick reference</h2><p>The constants you reach for repeatedly.</p></div>
-      <div class="reference-grid">
-        <article><span>Avogadro constant</span><b>6.022 140 76 × 10²³ mol⁻¹</b></article>
-        <article><span>Faraday constant</span><b>96 485.332 12 C mol⁻¹</b></article>
-        <article><span>Gas constant R</span><b>8.314 462 618 J mol⁻¹ K⁻¹</b></article>
-        <article><span>Planck constant</span><b>6.626 070 15 × 10⁻³⁴ J s</b></article>
-      </div>
-    </section>
-
-    <section id="resources" class="view">
-      <div class="section-intro"><span class="kicker">LINKS</span><h2>Scientific resources</h2><p>Reliable starting points, organized around actual bench work.</p></div>
-      <div class="resource-grid">
-        <a href="https://pubchem.ncbi.nlm.nih.gov" target="_blank" rel="noreferrer"><b>PubChem</b><span>Compounds, properties & safety</span></a>
-        <a href="https://webbook.nist.gov/chemistry/" target="_blank" rel="noreferrer"><b>NIST Chemistry WebBook</b><span>Spectra & thermochemical data</span></a>
-        <a href="https://www.rcsb.org" target="_blank" rel="noreferrer"><b>RCSB PDB</b><span>Protein structures</span></a>
-        <a href="https://pubmed.ncbi.nlm.nih.gov" target="_blank" rel="noreferrer"><b>PubMed</b><span>Biomedical literature</span></a>
-      </div>
-    </section>
-  </main>
-
-  <dialog id="experimentDialog">
-    <form id="experimentForm" method="dialog">
-      <div class="dialog-head"><div><span class="kicker">NEW RECORD</span><h2>Start an experiment</h2></div><button type="button" class="icon-button" id="closeDialog">×</button></div>
-      <label>Title<input id="expTitle" required placeholder="What are you testing?"/></label>
-      <label>Discipline<select id="expDiscipline"><option>Organic Chemistry</option><option>Electrochemistry</option><option>Biochemistry</option><option>Materials Science</option><option>Nanotechnology</option></select></label>
-      <label>Objective<textarea id="expObjective" placeholder="Question / hypothesis / objective"></textarea></label>
-      <div class="split"><label>Observation<textarea id="expObservation" placeholder="What did you actually observe?"></textarea></label><label>Interpretation<textarea id="expInterpretation" placeholder="What might it mean?"></textarea></label></div>
-      <button class="primary" value="default">Save experiment</button>
-    </form>
-  </dialog>
-
-  <script src="app.js"></script>
-</body>
-</html>
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#005bbb"><title>NOOR — Electronic Lab Notebook</title><link rel="stylesheet" href="styles.css"></head><body>
+<aside class="sidebar"><div class="brand"><span class="mark">N</span><div><strong>NOOR</strong><small>Electronic Lab Notebook</small></div></div><nav><button class="nav active" data-view="today">Today</button><p class="nav-label">Research</p><button class="nav" data-view="experiments">Experiments</button><button class="nav" data-view="protocols">Protocols</button><button class="nav" data-view="results">Results & discussion</button><p class="nav-label">Knowledge</p><button class="nav" data-view="references">Reference hub</button><button class="nav" data-view="resources">Resources</button></nav><div class="offline"><span class="dot"></span><span id="offlineText">Local-first workspace</span></div></aside>
+<main><header class="topbar"><div><p class="eyebrow" id="dateLabel"></p><h1 id="pageTitle">Good day, scientist.</h1></div><button class="primary" id="newExperiment">+ New experiment</button></header>
+<section id="today" class="view active-view"><div class="quote-card"><span class="quote-mark">“</span><blockquote id="quoteText"></blockquote><p id="quoteAuthor"></p></div><div class="section-intro compact"><span class="kicker">CHOOSE YOUR BENCH</span><h2>What kind of science are you doing?</h2><p>Each workspace changes its experiment templates, references, and calculations.</p></div><div class="discipline-grid">
+<button class="discipline orgo" data-discipline="Organic Chemistry"><b>Organic Chemistry</b><span>Synthesis · reactions · purification</span></button><button class="discipline electro" data-discipline="Electrochemistry"><b>Electrochemistry</b><span>Cells · cycling · electrodes</span></button><button class="discipline biochem" data-discipline="Biochemistry"><b>Biochemistry</b><span>Cells · PCR · assays · buffers</span></button><button class="discipline materials" data-discipline="Materials Science"><b>Materials Science</b><span>Fabrication · films · characterization</span></button><button class="discipline nano" data-discipline="Nanotechnology"><b>Nanotechnology</b><span>Particles · formulations · surfaces</span></button></div>
+<div class="dashboard-grid"><article class="panel"><div class="panel-head"><div><span class="kicker">TODAY</span><h2>Bench list</h2></div><span class="count" id="taskCount">0</span></div><form id="taskForm" class="inline-form"><input id="taskInput" placeholder="Add a lab task…"><button>Add</button></form><ul id="taskList" class="task-list"></ul></article><article class="panel"><div class="panel-head"><div><span class="kicker">RECENT</span><h2>Experiments</h2></div><button class="text-button" data-jump="experiments">View all</button></div><div id="recentExperiments" class="empty-state"></div></article></div></section>
+<section id="workspace" class="view"><div class="workspace-head"><div><span class="kicker" id="workspaceKicker">DISCIPLINE</span><h2 id="workspaceTitle"></h2><p id="workspaceBlurb"></p></div><button class="primary" id="workspaceNew">+ New experiment</button></div><div id="templateStrip" class="template-strip"></div><div class="workspace-grid"><div><h3 class="minihead">Contextual tools <span class="goose">Silly Goose inside</span></h3><div id="toolGrid" class="tool-grid"></div></div><div><h3 class="minihead">Quick reference</h3><div id="disciplineRefs" class="discipline-refs"></div></div></div><div id="toolPanel" class="tool-panel hidden"></div></section>
+<section id="experiments" class="view"><div class="section-intro"><span class="kicker">RESEARCH</span><h2>Experiments</h2><p>Observation stays separate from interpretation.</p></div><div id="experimentList" class="cards"></div></section>
+<section id="protocols" class="view"><div class="section-intro"><span class="kicker">LIBRARY</span><h2>Protocols</h2><p>Reusable methods with optimization notes and versions.</p></div><div class="placeholder">Protocol editor is the next record type to connect to experiments.</div></section>
+<section id="results" class="view"><div class="section-intro"><span class="kicker">INTERPRETATION</span><h2>Results & discussion</h2><p>Build conclusions across experiments while preserving the raw record.</p></div><div class="placeholder">Project-level synthesis will aggregate linked experiment records here.</div></section>
+<section id="references" class="view"><div class="section-intro"><span class="kicker">REFERENCE</span><h2>Reference hub</h2><p>Universal constants plus discipline-specific references inside each bench.</p></div><div class="reference-grid"><article><span>Avogadro constant</span><b>6.022 140 76 × 10²³ mol⁻¹</b></article><article><span>Faraday constant</span><b>96 485.332 12 C mol⁻¹</b></article><article><span>Gas constant R</span><b>8.314 462 618 J mol⁻¹ K⁻¹</b></article><article><span>Planck constant</span><b>6.626 070 15 × 10⁻³⁴ J s</b></article></div></section>
+<section id="resources" class="view"><div class="section-intro"><span class="kicker">LINKS</span><h2>Scientific resources</h2></div><div class="resource-grid"><a href="https://pubchem.ncbi.nlm.nih.gov" target="_blank"><b>PubChem</b><span>Compounds, properties & safety</span></a><a href="https://webbook.nist.gov/chemistry/" target="_blank"><b>NIST Chemistry WebBook</b><span>Spectra & thermochemical data</span></a><a href="https://www.rcsb.org" target="_blank"><b>RCSB PDB</b><span>Protein structures</span></a><a href="https://pubmed.ncbi.nlm.nih.gov" target="_blank"><b>PubMed</b><span>Biomedical literature</span></a></div></section></main>
+<dialog id="experimentDialog"><form id="experimentForm"><div class="dialog-head"><div><span class="kicker">NEW RECORD</span><h2>Start an experiment</h2></div><button type="button" class="icon-button" id="closeDialog">×</button></div><label>Title<input id="expTitle" required placeholder="What are you testing?"></label><div class="split"><label>Discipline<select id="expDiscipline"><option>Organic Chemistry</option><option>Electrochemistry</option><option>Biochemistry</option><option>Materials Science</option><option>Nanotechnology</option></select></label><label>Experiment type<select id="expType"></select></label></div><label>Objective<textarea id="expObjective" placeholder="Question / hypothesis / objective"></textarea></label><div class="split"><label>Observation<textarea id="expObservation" placeholder="What did you actually observe?"></textarea></label><label>Interpretation<textarea id="expInterpretation" placeholder="What might it mean?"></textarea></label></div><button class="primary">Save experiment</button></form></dialog><script src="app.js"></script></body></html>
