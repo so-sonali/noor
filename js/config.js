@@ -4,6 +4,8 @@ if (typeof document !== 'undefined') {
   import('./postdoc-workflow.js');
   import('./handwriting.js');
   import('./project-linking.js');
+  import('./audit-history.js');
+  import('./cloud-sync.js');
 }
 
 export const DISCIPLINES = {
