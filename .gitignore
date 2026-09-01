@@ -1,0 +1,12 @@
+# Local research data / exports
+noor-backup-*.json
+noor-experiments*.csv
+noor-plate-*.csv
+*.local.json
+logs/
+
+# OS/editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
