@@ -1,4 +1,4 @@
-import './reference-enhancements.js';
+if (typeof document !== 'undefined') import('./reference-enhancements.js');
 
 export const DISCIPLINES = {
   orgo: {
