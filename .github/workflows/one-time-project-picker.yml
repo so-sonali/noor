@@ -1,0 +1,86 @@
+name: One-time experiment project picker
+on:
+  push:
+    paths:
+      - '.github/workflows/one-time-project-picker.yml'
+permissions:
+  contents: write
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Add saved-project suggestions to experiment form
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          p = Path('js/postdoc-workflow.js')
+          s = p.read_text()
+          marker = '// NOOR_PROJECT_PICKER'
+          if marker not in s:
+              s += r'''
+
+// NOOR_PROJECT_PICKER
+async function refreshExperimentProjectSuggestions(){
+  const input=document.querySelector('#expProject');
+  if(!input)return;
+  let list=document.querySelector('#expProjectOptions');
+  if(!list){
+    list=document.createElement('datalist');
+    list.id='expProjectOptions';
+    input.insertAdjacentElement('afterend',list);
+  }
+  input.setAttribute('list','expProjectOptions');
+  input.setAttribute('autocomplete','off');
+  const [projects,experiments]=await Promise.all([all('projects'),all('experiments')]);
+  const current=input.value.trim();
+  const names=[...new Set([
+    ...projects.map(p=>p.name),
+    ...experiments.map(e=>e.project),
+    current
+  ].filter(Boolean))].sort((a,b)=>a.localeCompare(b));
+  list.innerHTML=names.map(name=>`<option value="${esc(name)}"></option>`).join('');
+  input.placeholder=projects.length?'Choose or type a project':'Project / study';
+}
+
+function wireExperimentProjectSuggestions(){
+  const input=document.querySelector('#expProject');
+  if(!input)return;
+  const refresh=()=>refreshExperimentProjectSuggestions().catch(console.error);
+  input.addEventListener('focus',refresh);
+  input.addEventListener('click',async()=>{
+    await refresh();
+    try{input.showPicker?.();}catch(_e){}
+  });
+  const projectDialog=document.querySelector('#projectDialog');
+  projectDialog?.addEventListener('close',refresh);
+  document.addEventListener('click',e=>{
+    if(e.target.closest('#newExperiment,#workspaceNew,[data-template],[data-edit-exp]'))refresh();
+  },true);
+  refresh();
+}
+setTimeout(wireExperimentProjectSuggestions,0);
+'''
+          p.write_text(s)
+          sw = Path('sw.js')
+          t = sw.read_text()
+          import re
+          t = re.sub(r"const CACHE='[^']+';", "const CACHE='noor-v1.3.3-project-picker';", t, count=1)
+          sw.write_text(t)
+          PY
+      - name: Verify
+        run: |
+          node --check js/postdoc-workflow.js
+          grep -q "NOOR_PROJECT_PICKER" js/postdoc-workflow.js
+          grep -q "expProjectOptions" js/postdoc-workflow.js
+      - name: Commit source update and remove one-time workflow
+        shell: bash
+        run: |
+          git config user.name "Sonali Garg"
+          git config user.email "145942258+so-sonali@users.noreply.github.com"
+          git add js/postdoc-workflow.js sw.js
+          git rm .github/workflows/one-time-project-picker.yml
+          git commit -m "Link saved projects to experiment form"
+          git push
