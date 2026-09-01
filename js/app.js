@@ -1,3 +1,4 @@
+import './media.js';
 import {DISCIPLINES,TOOL_LABELS,UNIVERSAL_CONSTANTS,SOLVENTS,QUOTES,disciplineFromLabel} from './config.js';
 import {all,put,get,remove,uid,migrateLegacy,exportAll,importAll,requestPersistence,estimateStorage} from './storage.js';
 import {renderTool,downloadText} from './tools.js';
