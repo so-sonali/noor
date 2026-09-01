@@ -1,0 +1,74 @@
+name: One-time NOOR UI cleanup
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/one-time-ui-cleanup.yml'
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  fix-and-deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Remove duplicated page heading and clean greeting
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+
+          app = Path('js/app.js')
+          text = app.read_text()
+          old = "function showView(id){$$('.view').forEach(v=>v.classList.toggle('active-view',v.id===id));$$('.nav').forEach(n=>n.classList.toggle('active',n.dataset.view===id));$('#pageTitle').textContent=id==='today'?'Good day, scientist.':id==='workspace'?DISCIPLINES[activeDiscipline].label:id.replaceAll('-',' ').replace(/\\b\\w/g,c=>c.toUpperCase());window.scrollTo({top:0,behavior:'smooth'});}"
+          new = "function greeting(){const h=new Date().getHours();return h<12?'Good morning':h<17?'Good afternoon':'Good evening';}\nfunction showView(id){$$('.view').forEach(v=>v.classList.toggle('active-view',v.id===id));$$('.nav').forEach(n=>n.classList.toggle('active',n.dataset.view===id));const pageTitle=$('#pageTitle');pageTitle.textContent=greeting();pageTitle.style.display=id==='today'?'':'none';window.scrollTo({top:0,behavior:'smooth'});}"
+          if old not in text:
+              raise SystemExit('Expected showView implementation not found')
+          app.write_text(text.replace(old,new,1))
+
+          index = Path('index.html')
+          html = index.read_text().replace('Good day, scientist.','Good morning',1)
+          index.write_text(html)
+
+          sw = Path('sw.js')
+          cache = sw.read_text().replace("const CACHE='noor-v1.0.0';","const CACHE='noor-v1.0.1';",1)
+          sw.write_text(cache)
+          PY
+
+      - name: Verify JavaScript
+        run: |
+          node --check js/app.js
+          node tests/tool-tests.mjs
+
+      - name: Remove one-time workflow and commit fix
+        run: |
+          rm .github/workflows/one-time-ui-cleanup.yml
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add js/app.js index.html sw.js .github/workflows/one-time-ui-cleanup.yml
+          git commit -m "Clean mobile headings and greeting"
+          git push
+
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload static site
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: .
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
