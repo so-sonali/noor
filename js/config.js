@@ -3,6 +3,7 @@ if (typeof document !== 'undefined') {
   import('./formula-formatting.js');
   import('./postdoc-workflow.js');
   import('./handwriting.js');
+  import('./project-linking.js');
 }
 
 export const DISCIPLINES = {
