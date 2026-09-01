@@ -1,3 +1,5 @@
+import './reference-enhancements.js';
+
 export const DISCIPLINES = {
   orgo: {
     id: 'orgo', label: 'Organic Chemistry', className: 'orgo',
