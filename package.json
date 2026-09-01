@@ -1,10 +1,10 @@
 {
   "name": "noor-eln",
-  "version": "1.0.0",
+  "version": "1.2.0",
   "private": true,
   "type": "module",
   "scripts": {
-    "check": "node --check js/config.js && node --check js/storage.js && node --check js/tools.js && node --check js/app.js",
+    "check": "node --check js/config.js && node --check js/storage.js && node --check js/tools.js && node --check js/app.js && node --check js/media.js && node --check js/reference-enhancements.js && node --check js/formula-formatting.js && node --check js/postdoc-workflow.js",
     "test": "node tests/tool-tests.mjs"
   }
 }
