@@ -1,4 +1,7 @@
-if (typeof document !== 'undefined') import('./reference-enhancements.js');
+if (typeof document !== 'undefined') {
+  import('./reference-enhancements.js');
+  import('./formula-formatting.js');
+}
 
 export const DISCIPLINES = {
   orgo: {
