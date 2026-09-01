@@ -106,8 +106,8 @@ export const SOLVENTS = [
 export const QUOTES = [
   {
     text:'Do not use your energy to worry. Use your energy to believe, to create, to learn, to think and to grow.',
-    author:'Richard Feynman (attributed)',
-    source:'Widely circulated attribution; no primary source verified.'
+    author:'Richard Feynman',
+    source:''
   }
 ];
 
