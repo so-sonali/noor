@@ -4,7 +4,7 @@ NOOR is a local-first electronic lab notebook for **Organic Chemistry, Electroch
 
 **Open NOOR:** https://so-sonali.github.io/noor/
 
-You do not need to create an account. Open the app in a supported browser and start working. Your notebook data is saved locally in that browser/device rather than in this public GitHub repository.
+
 
 > **Important:** NOOR currently stores research data locally in your browser using IndexedDB. If you open NOOR on another device or browser, that device starts with its own notebook. Use the backup tools regularly if the data matters.
 
