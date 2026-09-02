@@ -2,13 +2,14 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; connect-src 'self' https://swreuprsggqdmcjawtrw.supabase.co; font-src 'self' data:; object-src 'none'; base-uri 'self'; form-action 'self'; worker-src 'self' blob:; frame-src 'none'">
   <meta name="referrer" content="no-referrer">
   <meta name="theme-color" content="#005bbb">
   <meta name="description" content="NOOR — a local-first electronic lab notebook with contextual scientific tools.">
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="mobile.css">
   <title>NOOR — Electronic Lab Notebook</title>
 </head>
 <body>
@@ -118,21 +119,18 @@
         <a href="https://webbook.nist.gov/chemistry/" target="_blank" rel="noreferrer"><b>NIST Chemistry WebBook</b><span>Spectra & thermochemical data</span></a>
         <a href="https://www.rcsb.org" target="_blank" rel="noreferrer"><b>RCSB PDB</b><span>Protein structures</span></a>
         <a href="https://pubmed.ncbi.nlm.nih.gov" target="_blank" rel="noreferrer"><b>PubMed</b><span>Biomedical literature</span></a>
-        <a href="https://materialsproject.org" target="_blank" rel="noreferrer"><b>Materials Project</b><span>Computed materials properties</span></a>
-        <a href="https://www.ebi.ac.uk/chembl/" target="_blank" rel="noreferrer"><b>ChEMBL</b><span>Bioactive molecules & assays</span></a>
       </div>
     </section>
   </main>
 
-  <dialog id="experimentDialog"><form id="experimentForm"><div class="dialog-head"><div><span class="kicker">EXPERIMENT RECORD</span><h2>Experiment</h2></div><button type="button" class="icon-button" data-close>×</button></div><input id="expId" type="hidden"><div class="split"><label>Title<input id="expTitle" required placeholder="What are you testing?"></label><label>Project<input id="expProject" placeholder="Project / study"></label></div><div class="split"><label>Discipline<select id="expDiscipline"><option>Organic Chemistry</option><option>Electrochemistry</option><option>Biochemistry</option><option>Materials Science</option><option>Nanotechnology</option></select></label><label>Experiment type<select id="expType"></select></label></div><label id="expCustomTypeWrap" style="display:none">Custom experiment type<input id="expCustomType" placeholder="e.g. Photocurrent stability test"></label><label>Objective / hypothesis<textarea id="expObjective" placeholder="Question, hypothesis, objective"></textarea></label><div class="split"><label>Materials / samples<textarea id="expMaterials" placeholder="Materials, sample IDs, reagents, cells, electrodes…"></textarea></label><label>Procedure / conditions<textarea id="expProcedure" placeholder="What you did; link protocol/version in text if applicable"></textarea></label></div><div class="split scientific-separation"><label>Observation<textarea id="expObservation" placeholder="What actually happened? Keep this factual."></textarea></label><label>Interpretation<textarea id="expInterpretation" placeholder="What do you think it means?"></textarea></label></div><label>Next step<textarea id="expNext" placeholder="What should happen next?"></textarea></label><button class="primary">Save experiment</button></form></dialog>
-
-  <dialog id="protocolDialog"><form id="protocolForm"><div class="dialog-head"><div><span class="kicker">VERSIONED METHOD</span><h2>Protocol</h2></div><button type="button" class="icon-button" data-close>×</button></div><input id="protocolId" type="hidden"><input id="protocolFamily" type="hidden"><div class="split"><label>Title<input id="protocolTitle" required></label><label>Discipline<select id="protocolDiscipline"><option>Organic Chemistry</option><option>Electrochemistry</option><option>Biochemistry</option><option>Materials Science</option><option>Nanotechnology</option></select></label></div><label>Version<input id="protocolVersion" type="number" min="1" step="1" value="1"></label><label>Purpose<textarea id="protocolPurpose"></textarea></label><div class="split"><label>Materials / equipment<textarea id="protocolMaterials"></textarea></label><label>Steps<textarea id="protocolSteps"></textarea></label></div><div class="split"><label>Critical parameters<textarea id="protocolCritical"></textarea></label><label>Troubleshooting<textarea id="protocolTroubleshooting"></textarea></label></div><div class="split"><label>Safety / handling<textarea id="protocolSafety"></textarea></label><label>Optimization notes<textarea id="protocolOptimization"></textarea></label></div><button class="primary">Save protocol version</button></form></dialog>
-
-  <dialog id="synthesisDialog"><form id="synthesisForm"><div class="dialog-head"><div><span class="kicker">CHEMISTRY RECORD</span><h2>Synthesis</h2></div><button type="button" class="icon-button" data-close>×</button></div><input id="synId" type="hidden"><div class="split"><label>Reaction / product name<input id="synTitle" required></label><label>Project<input id="synProject"></label></div><div class="split"><label>SMILES<textarea id="synSmiles" class="mono" placeholder="Paste from ChemDraw or another structure tool"></textarea></label><label>InChI<textarea id="synInchi" class="mono"></textarea></label></div><label>MOL / SDF text<textarea id="synMol" class="mono tall" placeholder="Paste a MOL block or import a .mol/.sdf file"></textarea></label><label class="file-button inline-file">Import MOL/SDF<input id="molFile" type="file" accept=".mol,.sdf,text/plain"></label><div class="split"><label>Reagents / equivalents<textarea id="synReagents" placeholder="Reagent | MW | mmol | equiv | mass/volume"></textarea></label><label>Conditions<textarea id="synConditions" placeholder="Solvent, temperature, time, atmosphere…"></textarea></label></div><div class="split"><label>Workup<textarea id="synWorkup"></textarea></label><label>Purification<textarea id="synPurification"></textarea></label></div><div class="split"><label>Yield<input id="synYield" placeholder="e.g. 72%, 144 mg"></label><label>Characterization<textarea id="synCharacterization" placeholder="NMR, MS, IR, mp…"></textarea></label></div><label>Observations<textarea id="synObservation"></textarea></label><button class="primary">Save synthesis record</button></form></dialog>
-
-  <dialog id="discussionDialog"><form id="discussionForm"><div class="dialog-head"><div><span class="kicker">PROJECT SYNTHESIS</span><h2>Results & discussion</h2></div><button type="button" class="icon-button" data-close>×</button></div><input id="discId" type="hidden"><div class="split"><label>Title<input id="discTitle" required></label><label>Project<input id="discProject"></label></div><label>Finding / question<textarea id="discFinding"></textarea></label><div class="split"><label>Evidence<textarea id="discEvidence" placeholder="Which experiments/data support this?"></textarea></label><label>Interpretation<textarea id="discInterpretation"></textarea></label></div><div class="split"><label>Limitations / anomalies<textarea id="discLimitations"></textarea></label><label>Next experiment<textarea id="discNext"></textarea></label></div><button class="primary">Save discussion note</button></form></dialog>
-
-  <div id="toast" class="toast" role="status"></div>
+  <script type="module" src="js/config.js"></script>
+  <script type="module" src="js/storage.js"></script>
+  <script type="module" src="js/tools.js"></script>
   <script type="module" src="js/app.js"></script>
+  <script type="module" src="js/media.js"></script>
+  <script type="module" src="js/reference-enhancements.js"></script>
+  <script type="module" src="js/formula-formatting.js"></script>
+  <script type="module" src="js/postdoc-workflow.js"></script>
+  <script type="module" src="js/handwriting.js"></script>
 </body>
 </html>
