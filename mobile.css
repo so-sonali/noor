@@ -75,3 +75,11 @@
   button,.file-button,summary,select,input{min-height:42px}
   .plate96 button{min-height:34px}
 }
+
+/* Global shell controls are contextual. The section itself supplies its own action button. */
+#newExperiment{display:none}
+body:has(#today.active-view) #newExperiment{display:inline-flex}
+
+/* A locked research vault is a cloud-encryption state, not a locked ELN. */
+#noorAccountBtn .account-label{font-size:0}
+#noorAccountBtn .account-label::after{content:'Account';font-size:11px}
